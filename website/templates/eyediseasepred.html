@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Other head elements -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% extends "home.html" %}
+
+    {% block content %}
+    <div class="container">
+        <h2>Upload an Image for Prediction</h2>
+        
+        <form action="{{ url_for('routes.predict') }}" method="POST" enctype="multipart/form-data">
+            <input type="file" name="image" accept="image/*" required>
+            <button type="submit">Upload Image</button>
+        </form>
+        
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        {% if prediction %}
+        <div class="prediction-result">
+            <h3>Prediction Result:</h3>
+            <p>{{ prediction }}</p>
+            
+            {% if image_url %}
+                <h3>Uploaded Image:</h3>
+                <img src="{{ image_url }}" alt="Uploaded Image" style="max-width: 100%; height: auto;">
+            {% endif %}
+        </div>
+    {% endif %}
+    </div>
+    {% endblock %}
+</body>
+</html>

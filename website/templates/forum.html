@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Other head elements -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% extends "home.html" %}
+
+    {% block content %}
+    <div class="container">
+
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    
+        <!-- Form to create a new thread -->
+        <div class="thread-form">
+            <h2>Create a New Thread</h2>
+            <form action="{{ url_for('routes.create_thread') }}" method="POST">
+                <input type="text" name="title" placeholder="Thread Title" required>
+                <button type="submit">Create Thread</button>
+            </form>
+        </div>
+    
+        <!-- Display existing threads -->
+        <div class="thread-list">
+            <h2>Available Threads</h2>
+            <ul>
+                {% for thread in threads %}
+                    <li>
+                        <a href="{{ url_for('routes.thread', thread_id=thread.id) }}">{{ thread.title }}</a>
+                        <p>Author: {{ thread.author.username }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    
+    </div>
+    {% endblock %}
+</body>
+</html>
