@@ -6,6 +6,7 @@ import albumentations as A
 from albumentations.pytorch import ToTensorV2
 from efficientnet_pytorch import EfficientNet
 import config
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 # Hardcoded paths
 IMAGE_PATH = "website\\static\\images\\eye1.jpeg"

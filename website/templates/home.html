@@ -88,7 +88,7 @@ body.dark {
   color: var(--grey-color);
 }
 
-/* sidebar */
+/* Sidebar styling */
 .sidebar {
   background-color: var(--white-color);
   width: 260px;
@@ -98,54 +98,38 @@ body.dark {
   height: 100%;
   padding: 80px 20px;
   z-index: 100;
-  overflow-y: scroll;
+  overflow-y: auto;
   box-shadow: 0 0 1px var(--grey-color-light);
-  transition: all 0.5s ease;
+  transition: width 0.5s ease;
 }
+
+/* Styling for when the sidebar is closed */
 .sidebar.close {
   padding: 60px 0;
-  width: 0px;
+  width: 0;
 }
+
+/* Hide scrollbar for the sidebar */
 .sidebar::-webkit-scrollbar {
   display: none;
 }
-.menu_content {
-  position: relative;
-}
+
+/* Menu titles styling */
 .menu_title {
   margin: 15px 0;
   padding: 0 20px;
   font-size: 18px;
-}
-.sidebar.close .menu_title {
-  padding: 6px 30px;
-}
-.menu_title::before {
   color: var(--grey-color);
   white-space: nowrap;
 }
-.menu_dahsboard::before {
-  content: "Dashboard";
-}
-.menu_editor::before {
-  content: "Projects";
-}
-.menu_account::before {
-  content: "Account";
-}
 
-.sidebar.close .menu_title::before {
-  content: "";
-  position: absolute;
-  height: 2px;
-  width: 18px;
-  border-radius: 12px;
-  background: var(--grey-color-light);
-}
+/* Menu items styling */
 .menu_items {
   padding: 0;
   list-style: none;
 }
+
+/* Navigation link icon styling */
 .navlink_icon {
   position: relative;
   font-size: 22px;
@@ -154,84 +138,49 @@ body.dark {
   display: inline-block;
   text-align: center;
   border-radius: 6px;
+  color: var(--grey-color);
 }
-.navlink_icon::before {
-  content: "";
-  position: absolute;
-  height: 100%;
-  width: calc(100% + 100px);
-  left: -20px;
-}
-.navlink_icon:hover {
-  background: var(--blue-color);
-}
+
+/* Styling for the navigation links */
 .nav_link {
-  display: inline-block;
-  align-items: center;
-  text-decoration: none;
-  color: var(--grey-color);
-  white-space: nowrap;
-  padding: 4px 15px;
-  border-radius: 8px;
-}
-.navlink a {
-  display: inline-block;
-  vertical-align: middle;
-  text-decoration: none;
-  color: var(--grey-color);
-}
-.sidebar .nav_link {
   display: flex;
   align-items: center;
-  width: 100%;
-  padding: 4px 15px;
-  border-radius: 8px;
   text-decoration: none;
   color: var(--grey-color);
   white-space: nowrap;
+  padding: 4px 15px;
+  border-radius: 8px;
 }
-.sidebar.close .navlink {
-  display: none;
-}
+
+/* Hover effect for navigation links */
 .nav_link:hover {
   color: var(--white-color);
   background: var(--blue-color);
 }
-.sidebar.close .nav_link:hover {
-  background: var(--white-color);
-}
-.submenu_item {
-  cursor: pointer;
-}
+
+/* Submenu styling */
 .submenu {
   display: none;
 }
-.submenu_item .arrow-left {
-  position: absolute;
-  right: 10px;
-  display: inline-block;
-  margin-right: auto;
-}
-.sidebar.close .submenu {
-  display: none;
-}
+
 .show_submenu ~ .submenu {
   display: block;
 }
-.show_submenu .arrow-left {
-  transform: rotate(90deg);
-}
+
 .submenu .sublink {
   padding: 15px 15px 15px 52px;
 }
+
+/* Bottom content styling */
 .bottom_content {
   position: fixed;
   bottom: 60px;
   left: 0;
   width: 260px;
   cursor: pointer;
-  transition: all 0.5s ease;
+  transition: width 0.5s ease;
 }
+
 .bottom {
   position: absolute;
   display: flex;
@@ -245,43 +194,36 @@ body.dark {
   border-top: 1px solid var(--grey-color-light);
   background-color: var(--white-color);
 }
+
 .bottom i {
   font-size: 20px;
 }
+
 .bottom span {
   font-size: 18px;
 }
-.sidebar.close .bottom_content {
-  width: 50px;
-  left: 15px;
-}
-.sidebar.close .bottom span {
-  display: none;
-}
-.sidebar.hoverable .collapse_sidebar {
-  display: none;
-}
-#sidebarOpen {
-  display: none;
-}
+
 @media screen and (max-width: 768px) {
-  #sidebarOpen {
-    font-size: 25px;
-    display: block;
-    margin-right: 10px;
-    cursor: pointer;
-    color: var(--grey-color);
+  .sidebar {
+    width: 100%;
+    left: 0;
   }
+  
   .sidebar.close {
+    width: 0;
     left: -100%;
   }
+  
   .search_bar {
     display: none;
   }
-  .sidebar.close .bottom_content {
+  
+  .bottom_content {
     left: -100%;
   }
 }
+
+
 .navbar_content #loginBtn,
     .navbar_content #signupBtn {
       display: inline-block;
@@ -417,6 +359,7 @@ body.dark {
     <!-- navbar -->
     <nav class="navbar">
       <div class="logo_item">
+        
         <i class="bx bx-menu" id="sidebarOpen"></i>
         <img src="{{ url_for('static', filename='images/logo1.jpeg') }}" alt="hello"></i>Easy Med
       </div>
@@ -462,6 +405,26 @@ body.dark {
               <span class="navlink">Community Form</span>
             </a>
           </li>
+
+          <li class="item">
+          </li>
+            <a href="{{ url_for('routes.medicalbot') }}" class="nav_link">
+              <span class="navlink_icon">
+                <i class="bx bx-bot"></i>
+              </span>
+              <span class="navlink">Medical Chatbot</span>
+            </a>
+          </li>
+          
+          <li class="item"></li>
+            <a href="{{ url_for('routes.map_view') }}" class="nav_link">
+              <span class="navlink_icon">
+                <i class="bx bx-bot"></i>
+              </span>
+              <span class="navlink">Maps</span>
+            </a>
+          </li>
+
           <li class="item">
             <a href="#" class="nav_link">
               <span class="navlink_icon">
@@ -470,9 +433,7 @@ body.dark {
               <span class="navlink">About Us</span>
             </a>
           </li>
-          <!-- end -->
-        </ul>
-            
+
             <li class="item">
               <a href="#" class="nav_link">
                 <span class="navlink_icon">
@@ -489,19 +450,8 @@ body.dark {
                 <span class="navlink">logout</span>
               </a>
             </li>
-          </ul>
 
-        <!-- Sidebar Open / Close -->
-        <div class="bottom_content">
-          <div class="bottom expand_sidebar">
-            <span> Expand</span>
-            <i class='bx bx-log-in' ></i>
-          </div>
-          <div class="bottom collapse_sidebar">
-            <span> Collapse</span>
-            <i class='bx bx-log-out'></i>
-          </div>
-        </div>
+        
       </div>
     </nav>
     {%block content %}

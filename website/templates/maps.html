@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geolocation Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 500px; }
+    </style>
+</head>
+<body>
+
+    <h1>Find Nearby Places</h1>
+    <button onclick="searchNearby('pharmacy')">Search Nearby medicalshops</button>
+    <button onclick="searchNearby('hospital')">Search Nearby Hospitals</button>
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([51.505, -0.09], 13);
+
+        // Load map tiles from OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+        }).addTo(map);
+
+        // Function to search nearby places
+        function searchNearby(type) {
+            // Attempt to get the user's current location
+            navigator.geolocation.getCurrentPosition(
+                function(location) {
+                    var lat = location.coords.latitude;
+                    var lon = location.coords.longitude;
+
+                    console.log("User Location: ", lat, lon);
+
+                    // Center map on user's location
+                    map.setView([lat, lon], 14);
+
+                    // Remove any existing markers
+                    map.eachLayer(function (layer) {
+                        if (layer instanceof L.Marker) {
+                            map.removeLayer(layer);
+                        }
+                    });
+
+                    // Add a marker for the user's location
+                    L.marker([lat, lon], { title: "Your Location" }).addTo(map)
+                        .bindPopup("<b>You are here</b>").openPopup();
+
+                    // Fetch nearby places (dummy fetch example; replace with real API if needed)
+                    fetch(`/search?lat=${lat}&lon=${lon}&type=${type}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.length === 0) {
+                                alert('No results found!');
+                            } else {
+                                data.forEach(function(result) {
+                                    L.marker([result.lat, result.lon]).addTo(map)
+                                        .bindPopup(`<b>${result.name}</b>`);
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data:', error);
+                        });
+                },
+                function(error) {
+                    console.error('Geolocation error:', error);
+                    alert('Error getting your location. Please allow location access.');
+                },
+                { enableHighAccuracy: true }  // Request high accuracy for better location
+            );
+        }
+
+        // Fallback: Allow manual location selection if geolocation fails
+        map.on('click', function(e) {
+            var lat = e.latlng.lat;
+            var lon = e.latlng.lng;
+
+            console.log("Manual Location: ", lat, lon);
+
+            // Remove existing markers
+            map.eachLayer(function (layer) {
+                if (layer instanceof L.Marker) {
+                    map.removeLayer(layer);
+                }
+            });
+
+            // Add a marker at the manually selected location
+            L.marker([lat, lon], { title: "Selected Location" }).addTo(map)
+                .bindPopup("<b>Selected Location</b>").openPopup();
+
+            // Fetch results based on selected location (replace with real API if needed)
+            fetch(`/search?lat=${lat}&lon=${lon}&type=restaurant`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(function(result) {
+                        L.marker([result.lat, result.lon]).addTo(map)
+                            .bindPopup(`<b>${result.name}</b>`);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Thread: {{ thread.title }}</title>
+</head>
+<body>
+    {% extends "home.html" %}
+
+    {% block content %}
+    <div class="container">
+        <h1>Thread: {{ thread.title }} <small>by {{ thread.author.username }}</small></h1>
+        
+        {% if is_author %}
+            <form action="{{ url_for('routes.delete_thread', thread_id=thread.id) }}" method="POST" style="margin-bottom: 20px;">
+                <button type="submit">Delete Thread</button>
+            </form>
+        {% endif %}
+        
+        <!-- Display posts within the thread -->
+        <div class="post-list">
+            <h2>Posts</h2>
+            <ul>
+                {% for post in posts %}
+                    <li><strong>{{ post.author.username }}:</strong> {{ post.content }}</li>
+                {% else %}
+                    <li>No posts yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Form to add a new post -->
+        <div class="post-form">
+            <h2>Add a Post</h2>
+            <form action="{{ url_for('routes.add_post', thread_id=thread.id) }}" method="POST">
+                <textarea name="content" placeholder="Write your reply..." required></textarea>
+                <button type="submit">Add Post</button>
+            </form>
+        </div>
+
+
+        <a href="{{ url_for('routes.home') }}">Back to Home</a>
+    </div>
+    {% endblock %}
+
+</body>
+</html>
