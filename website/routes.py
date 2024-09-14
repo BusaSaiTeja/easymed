@@ -7,7 +7,7 @@ from flask_login import login_required, current_user
 import os
 import torch
 from .predict import load_checkpoint,load_model,make_prediction,preprocess_image,CHECKPOINT_PATH
-
+import datetime
 routes = Blueprint('routes', __name__)
 
 @routes.route('/')
@@ -156,3 +156,21 @@ def search():
             })
 
     return jsonify(results)
+
+
+@routes.route('/appointments')
+@login_required
+def appointments():
+   
+    return render_template('appointments.html')
+
+@routes.route('/add_booking', methods=['GET', 'POST'])
+@login_required
+def add_booking():
+    return render_template('add_booking.html')
+
+@routes.route('/booked_appointments')
+@login_required
+def booked_appointments():
+
+    return render_template('booked_appointments.html')

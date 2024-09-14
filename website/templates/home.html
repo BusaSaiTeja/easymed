@@ -391,23 +391,28 @@ body.dark {
               </span>
               <span class="navlink">Home</span>
             </a>
-          </li>
-          <!-- end -->
+          </li>         
 
-          <!-- duplicate this li tag if you want to add or remove  navlink with submenu -->
-          <!-- start -->
-          
-          <li class="item">
-            <a href="{{ url_for('routes.forum') }}" class="nav_link">
+          <li class="item"></li>
+            <a href="{{ url_for('routes.appointments') }}" class="nav_link ">
               <span class="navlink_icon">
-                <i class="bx bx-bot"></i>
+                <i class="bx bx-calendar"></i>
               </span>
-              <span class="navlink">Community Form</span>
+              <span class="navlink">Appointments</span>
+            </a>
+          </li>
+
+          <li class="item"></li>
+            <a href="" class="nav_link ">
+              <span class="navlink_icon">
+                <i class='bx bx-bot'></i>
+
+              </span>
+              <span class="navlink">Medicine Tracking</span>
             </a>
           </li>
 
           <li class="item">
-          </li>
             <a href="{{ url_for('routes.medicalbot') }}" class="nav_link">
               <span class="navlink_icon">
                 <i class="bx bx-bot"></i>
@@ -416,12 +421,30 @@ body.dark {
             </a>
           </li>
           
-          <li class="item"></li>
+          <li class="item">
             <a href="{{ url_for('routes.map_view') }}" class="nav_link">
               <span class="navlink_icon">
-                <i class="bx bx-bot"></i>
+                <i class="bx bx-map"></i>
               </span>
               <span class="navlink">Maps</span>
+            </a>
+          </li>
+
+          <li class="item"></li>
+            <a href="" class="nav_link ">
+              <span class="navlink_icon">
+                <i class="bx bx-star"></i>
+              </span>
+              <span class="navlink">Rating and Reviews</span>
+            </a>
+          </li>
+
+          <li class="item">
+            <a href="{{ url_for('routes.forum') }}" class="nav_link">
+              <span class="navlink_icon">
+                <i class="bx bx-comment"></i>
+              </span>
+              <span class="navlink">Community Form</span>
             </a>
           </li>
 

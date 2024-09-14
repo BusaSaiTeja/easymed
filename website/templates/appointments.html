@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Available Appointments</title>
+</head>
+<body>
+    {% extends "home.html" %}
+
+    {% block content %}
+    <div class="container">
+        <h1>Available Appointments</h1>
+
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Form to book a new appointment -->
+        <div class="appointment-form">
+            <h2>Book a New Appointment</h2>
+            <form action="{{ url_for('routes.add_booking') }}" method="POST">
+                <input type="text" name="title" placeholder="Appointment Title" required>
+                <input type="datetime-local" name="datetime" required>
+                <button type="submit">Book Appointment</button>
+            </form>
+        </div>
+
+        <!-- Display existing appointments -->
+        <div class="appointment-list">
+            <h2>Appointments</h2>
+            <ul>
+                {% for appointment in appointments %}
+                    <li>
+                        <strong>{{ appointment.title }}</strong> - {{ appointment.datetime }}
+                        {% if not appointment.booked %}
+                            <a href="{{ url_for('routes.add_booking', appointment_id=appointment.id) }}">Book Now</a>
+                        {% else %}
+                            <p>Booked by: {{ appointment.booked_by.username }}</p>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>
